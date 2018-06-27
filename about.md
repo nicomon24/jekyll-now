@@ -4,12 +4,13 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Hi friend,
+I'm Nico Montali, an italian student really passionate for AI and tech. I recently got my master from Politecnico di Milano, specializing in Machine Learning. I'm currently searching and applying for a PhD position in the Reinforcement Learning field.
 
-### More Information
+### What is this place
 
-A place to include any other types of information that you'd like to include about yourself.
+This site is intended to be a small blog regarding all my studies and experiments, hoping that it could be useful for others when in need.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[nico.montali24@gmail.com](mailto:nico.montali24@gmail.com)
