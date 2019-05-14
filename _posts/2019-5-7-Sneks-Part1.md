@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Sneks [Part 1]: single agent and base solution using DQN"
+title: "Sneks [Part 1]: Single-Agent and Base Solution using DQN"
 ---
 
 Despite recent successes in the field of Deep Reinforcement Learning, like [Alphastar](https://deepmind.com/blog/alphastar-mastering-real-time-strategy-game-starcraft-ii/) or [OpenAI Five](https://openai.com/five/) there are still major problems to be tackled in a meaningful way: sample efficiency, exploration-exploitation, life-long learning and others. These problems are visible not only in complex environments but are also presents in problems specifically designed to isolate that trait, e.g. Atari's Montezuma Revenge for the exploration-exploitation dilemma.<!--more--><sup>[^juliani] [^goexplore]</sup>
