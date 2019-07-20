@@ -5,12 +5,13 @@ permalink: /about/
 ---
 
 Hi friend,
-I'm Nico Montali, an italian student really passionate for AI and tech. I recently got my master from Politecnico di Milano, specializing in Machine Learning. I'm currently searching and applying for a PhD position in the Reinforcement Learning field.
+
+I'm Nico Montali, currently a Research Fellow at Politecnico di Milano. My main research area is in Reinforcement Learning.
+
+**Update July 2019:** From September I'm going to work at [Latent Logic](https://www.latentlogic.com/).
 
 ### What is this place
 
 This site is intended to be a small blog regarding all my studies and experiments, hoping that it could be useful for others when in need.
 
-### Contact me
-
-[nico.montali24@gmail.com](mailto:nico.montali24@gmail.com)
+All my contacts are in the footer :)

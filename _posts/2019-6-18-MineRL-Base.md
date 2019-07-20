@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "⛏  MineRL Competition [Part 1]: Domain Analysis and First Simple Solutions"
+title: "⛏  MineRL Competition [Part 1]: Domain Analysis and First Simple Solution"
 ---
 
 [MineRL](https://www.aicrowd.com/challenges/neurips-2019-minerl-competition) is a recently started NeurIPS19 competition, with the goal of sample-efficient DRL algorithms in a very complex and hierarchical problem. I always had a passion for minecraft, since it is a quite complete game, which (in humans) stimulate strategy, exploration and building creativity.
@@ -13,14 +13,14 @@ In the recent years, we have seen a lot of impressing DRL achievements (citing t
 - Model based: using the demonstrations to learn a model of the environment
 
 These are the first things that come to my mind, but we will see what happens next!
-In this post, we will approach the problem in one of its simpler configurations, first analyzing the corresponding dataset, and then applying a simple DQN to the environment.
+In this post, we will approach the problem in one of its simpler configurations, first analyzing the corresponding dataset, and then applying a simple DQN<sup>[^dqn]</sup> to the environment.
 
 # Domain Analysis
 In this particular part, we will only use the environment *MineRLNavigateDense-v0*, which is the easiest one. It requires to navigate to a given block (diamond), which is placed on the surface at a distance of 64 blocks. It is *dense*, i.e. the reward is shaped to point exactly to the block. We will use this property to use low values of gamma, since an almost greedy controller is good in this setting of dense reward.
 Also the dataset has the same task division, so we will focus on the same one.
 
 When we deal with offline datasets, it is always better to explore them a little bit, both to understand the problem better but also to cross-check that everything works fine.
-The basic action to do on the dataset is to call *data.seq_iter*, which creates a generator of sequences belonging to the same episode, return observations, actions, rewards and termination flags. We can see an example of images returned by the dataset in the following image. The observation also contains a compass angle, pointing to a position in the proximity of the goal. In the following plot, we also show the reward per timestep inside the same episode, which has a value a bit lower than 1.0 (which is the reward of moving exactly one block towards the goal).
+The basic action to do on the dataset is to call *data.sarsd_iter\(\)*, which creates a generator of sequences belonging to the same episode, return observations, actions, rewards and termination flags. We can see an example of images returned by the dataset in the following image. The observation also contains a compass angle, pointing to a position in the proximity of the goal. In the following plot, we also show the reward per timestep inside the same episode, which has a value a bit lower than 1.0 (which is the reward of moving exactly one block towards the goal).
 
 ![Sequence of observations](/images/minerl/obs_sequence.png){:class="img-responsive" .center-image}
 ![Sequence of compass and reward](/images/minerl/compass_sequence.svg){:class="img-responsive" .center-image}
@@ -46,7 +46,7 @@ as possible values. For all the possible actions, we have values which are eithe
 
 We can notice that *forward*, *sprint* and *jump* are the most used actions in this task, which is reasonable given that this is a purely exploratory task, so the player only need to move around and find the goal block.
 
-One thing that could be useful in the future, is the correlation of action: given the complex combinations of sub-actions, it could be interesting to aggregate them using a measure of correlation. Just to give a first look, see below heatmap. We can notice an high correlation between again, *forward*, *sprint* and *jump*.
+One thing that could be useful in the future, is the correlation of action: given the complex combinations of sub-actions, it could be interesting to aggregate them using a measure of correlation. Just to give a first look, see below heatmap. We can notice an high correlation between again, *forward*, *sprint* and *jump*. This also means that, in further approaches, we will need to account for a conditional dependence of actions.
 
 ![Action heatmap](/images/minerl/action_heatmap.svg){:class="img-responsive" .center-image}
 
@@ -59,32 +59,23 @@ In this post, the goal is obviously not to directly tackle the main task of the 
 - Having an idea of the complexity of the task without the dataset
 
 In the navigation task, we want to reach a goal position (a diamond block on the ground), which is 64 blocks away from the player's starting position. The agent can observe the angle of a compass, pointing to a block near the goal, randomly choosen in a radius of 8 blocks. So, it is essential to use the compass to reach this spot, while reaching the goal block requires to use the camera observation.
-To study some of the issues above, we simplified the navigation task even more, creating an environment which tries to isolate specific features. We are going to describe each of them in the next sections, providing experimental results and commentaries.
+To study some of the issues above, we simplified the navigation task even more, creating an environment which tries to isolate specific features. In this post, we are going to impose:
+- *Flat world*: the world is all on the same level, so we can avoid using some actions (i.e. jump and camera pitch).
+- *Deterministic goal*: the compass points exactly to the goal position. This allows to use only the compass angle as state representation, avoiding a complex vision subpart for now.
 
-## Flat world
-This is probably to easiest task we can think of, but it is a perfect benchmark to structure our solution. Specifically, we tweaked:
-- **World type**: we made the world a Flat world, meaning we don't have obstacles and every block is at the same height. In this setting, we can solve the task just using 2 actions: *camera yaw* and *forward*.
-- **Compass location**: the compass now points to the exact position of the goal. This allows us to use only the compass angle value, meaning our Q network will be very easy.
+## Results
 
-In the following figures, we can see the training process (one single run) and the resulting policy. All the code will be available on github in a short time.
+In the following figures, we can see the training process (one single run) and the resulting policy. In this case, we only considered 2 actions: *camera_yaw* and *forward*.
+All the code will be available on github in a short time.
 
-![Action heatmap](/images/minerl/run_fixedcompass_base.svg){:class="img-responsive" .center-image}
+![Training plots](/images/minerl/run_fixedcompass_base.svg){:class="img-responsive" .center-image}
+*Performance during training*
 
-![Action heatmap](/images/minerl/replay.gif){:class="img-responsive" .center-image}
+![Test performances](/images/minerl/replay.gif){:class="img-responsive" .center-image}
+*Replay of the episode with 2D map*
 
-<!--
-- Flat world, no stochasticity:
-  - Solution with DQN, description of code
-  - Repeated actions?
-  - Training curves
-  - GIF of policy rollout
-  - Commentary
-- Flat world, stochasticity + POV:
-  - Solution with DQN, description of code
-  - Training curves
-  - GIF of trained policy
-  - Commentary
-- Default world
-  - Solution with base DQN ?
-  - Pretraining on dataset
--->
+# Conclusion
+While DQN works in this simple setting with just 2 discretized action, several tests showed how it was impossible to make a direct mapping to the complex action settings, probably because the choice of action composition in DQN did not scale well with the action space dimension *(possible idea: pointer networks?)*. In fact, all the recent baselines that are being released by the organizers are discretizations and serializations of the action space (i.e. action are taken one at a time, and some are fixed). Instead, I want to try a different path, which is trying to model all these actions together. I will present a solution for the (almost) standard *NavigateDense* task in the next post, using A2C (a policy gradient method).
+
+## Bibliography
+[^dqn]: Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." _Nature 518.7540_ (2015): 529.
