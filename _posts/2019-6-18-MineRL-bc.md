@@ -22,7 +22,7 @@ In this task we are missing the compass observation, since any tree is equally g
 As we did for the *NavigateDense* task, we should look at how actions are distributed and correlated.
 ![Action means](/images/minerl/treechop_action_means.svg){:class="img-responsive" .center-image}
 
-As we would expect, the most used action in this case is the attack action, used to effectively destroy blocks of wood and leaves. We also look at correlations, which show a very similar correlation between actions. This means that the dependence structure of action could be task-independent, which would be a very nice feature to build solutions for the more complex tasks. We will try to verify this hypothesis further on.
+As expected, the most used action in this case is the attack action, used to effectively destroy blocks of wood and leaves. We also look at correlations, which show a very similar correlation between actions. This means that the dependence structure of action could be task-independent, which would be a very nice feature to build solutions for the more complex tasks. We will try to verify this hypothesis further on.
 
 ![Action heatmap](/images/minerl/treechop_action_heatmap.svg){:class="img-responsive" .center-image}
 
@@ -40,7 +40,7 @@ Since we have also integrated the value function, we can set different levels of
 ![Test performances](/images/minerl/run_bc.svg){:class="img-responsive" .center-image}
 *Average return during training*
 
-Using a gamma of *0.9*, we also show train and test losses. We can notice how the peak in the episode returns roughly corresponds to the moment in which the testing performances increases.
+Using a gamma of *0.9*, we also show train and test losses. We can notice how the peak in the episode returns roughly corresponds to the moment in which the test performance increases.
 
 ![Test performances](/images/minerl/bc_traintest.svg){:class="img-responsive" .center-image}
 *Train and test losses*
