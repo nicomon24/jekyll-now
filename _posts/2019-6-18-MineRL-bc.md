@@ -22,7 +22,7 @@ In this task we are missing the compass observation, since any tree is equally g
 As we did for the *NavigateDense* task, we should look at how actions are distributed and correlated.
 ![Action means](/images/minerl/treechop_action_means.svg){:class="img-responsive" .center-image}
 
-As we would expect, the most used action in this case is the attack action, used to effectively destroy block of woods and leaves. We also look at correlations, which show a very similar correlation between actions. This means that the dependence structure of action could be task-independent, which would be a very nice feature to build solutions for the more complex tasks. We will try to verify this hypothesis further on.
+As we would expect, the most used action in this case is the attack action, used to effectively destroy blocks of wood and leaves. We also look at correlations, which show a very similar correlation between actions. This means that the dependence structure of action could be task-independent, which would be a very nice feature to build solutions for the more complex tasks. We will try to verify this hypothesis further on.
 
 ![Action heatmap](/images/minerl/treechop_action_heatmap.svg){:class="img-responsive" .center-image}
 
