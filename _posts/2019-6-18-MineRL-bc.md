@@ -3,7 +3,7 @@ layout: post
 title: "⛏  MineRL Competition [Part 3]: Behavioral Cloning"
 ---
 
-In this post, we study a basic approach to integrate one the main components of this competition: the demonstrations dataset. By providing this dataset, we can reduce the sample complexity of RL algorithms, which is essential given the speed and complexity of the simulated environment. We will apply a technique, called Behavioral Cloning, which is more related to supervised learning than RL. We will also try to enhance a cloned policy be applying again A2C.
+In this post, we study a basic approach to integrate one the main components of this competition: the demonstrations dataset. By providing this dataset, we can reduce the sample complexity of RL algorithms, which is essential given the speed and complexity of the simulated environment. We will apply a technique, called Behavioral Cloning, which is more related to supervised learning than RL. We will also try to enhance a cloned policy by applying again A2C.
 
 As previously discussed, we want to avoid the temporal dependence of the task, which adds complexity to the problem. Since we want to iteratively build more complex solution (and not going all-in from the start), in this post we focus on another task: the *MineRLTreechop* task. This specific task is practically Markovian even if the state is just one frame: once the agent sees a tree, it should move towards it and chop it down. Obviously, by assuming this setting, the agent could be stuck more frequently. We will discuss how to model this time dependence in future posts.
 
