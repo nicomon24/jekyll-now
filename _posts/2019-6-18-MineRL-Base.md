@@ -25,6 +25,7 @@ The basic action to do on the dataset is to call *data.sarsd_iter\(\)*, which cr
 ![Sequence of observations](/images/minerl/obs_sequence.png){:class="img-responsive" .center-image}
 ![Sequence of compass and reward](/images/minerl/compass_sequence.svg){:class="img-responsive" .center-image}
 
+We can notice how the compass gets more "unstable" near the end, since the angle changes more rapidly when the distance decreases. Also, we notice the last spike in the return, which is the +100 reward obtained by reaching the goal block.
 If you want to read more on the environment or the dataset, go to [MineRL documentation](http://minerl.io/docs/#).
 
 Since we are interested in applying DQN, which has a constraint on discrete actions, we need to look at the action space in detail. In MineRL, actions are described as a dictionary of possible *sub-actions*, which are controllable independently. These sub-actions form a macro action that is performed by the agent at each timestep. Among these sub-actions, only one is continuous: the one that controls the camera movement, expressed as a tuple of pitch and yaw movement (see below picture), from *-180* to *+180* degrees per tick.
