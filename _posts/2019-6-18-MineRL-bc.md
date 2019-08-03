@@ -3,12 +3,12 @@ layout: post
 title: "⛏  MineRL Competition [Part 3]: Behavioral Cloning"
 ---
 
-In this post, we study a basic approach to integrate one the main components of this competition: the demonstrations dataset. By providing this dataset, we can reduce the sample complexity of RL algorithms, which is essential given the speed and complexity of the simulated environment. We will apply a technique, called Behavioral Cloning, which is more related to supervised learning than RL. We will also try to enhance a cloned policy by applying again A2C.
+In this post, we study a basic approach to integrate one the main components of this competition: the demonstrations dataset. By providing this dataset, we can reduce the sample complexity of RL algorithms, which is essential given the speed and complexity of the simulated environment. We will apply a technique, called Behavioral Cloning, which is more related to supervised learning than RL. We will also try to enhance a cloned policy by applying A2C again.
 
-As previously discussed, we want to avoid the temporal dependence of the task, which adds complexity to the problem. Since we want to iteratively build more complex solution (and not going all-in from the start), in this post we focus on another task: the *MineRLTreechop* task. This specific task is practically Markovian even if the state is just one frame: once the agent sees a tree, it should move towards it and chop it down. Obviously, by assuming this setting, the agent could be stuck more frequently. We will discuss how to model this time dependence in future posts.
+As previously discussed, we want to avoid the temporal dependence of the task, which adds complexity to the problem. Since we want to iteratively build a more complex solution (and not going all-in from the start), in this post we focus on another task: the *MineRLTreechop* task. This specific task is practically Markovian even if the state is just one frame: once the agent sees a tree, it should move towards it and chop it down. Obviously, by assuming this setting, the agent could be stuck more frequently. We will discuss how to model this time dependence in future posts.
 
 # Dataset
-As we did for the *NavigateDense* task, we start by analyzing the dataset to better understand its characteristics. We start again by analyzing a batch of state and actions from the dataset.
+As we did for the *NavigateDense* task, we start by analyzing the dataset to better understand its characteristics. We start again by analyzing a batch of states and actions from the dataset.
 
 ![Sequence of observations](/images/minerl/treechop_pov.svg){:class="img-responsive" .center-image}
 *Observations*
@@ -28,7 +28,7 @@ As expected, the most used action in this case is the attack action, used to eff
 
 # Behavioral Cloning
 We can now build a basic behavioral cloning setup, by leveraging the policy we have defined in the previous post. This way, we are basically trying to recover the average policy that generated the set of demonstrations.
-While we do this, we also want to recover the value function (since A2C need a critic), which can be directly estimated from the demonstrations.
+While we do this, we also want to recover the value function (since A2C needs a critic), which can be directly estimated from the demonstrations.
 We try to learn them together, by minimizing the MSE of the value error and maximizing the log probability of the performed action.
 
 # Behavioral Cloning Results
