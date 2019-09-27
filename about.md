@@ -6,7 +6,7 @@ permalink: /about/
 
 Hi friend,
 
-I'm Nico Montali, currently a Research Fellow at Politecnico di Milano. My main research area is Reinforcement Learning.
+I'm Nico Montali, currently a Machine Learning Engineer @ Latent Logic. My main research area is Reinforcement Learning.
 
 ### What is this place
 
